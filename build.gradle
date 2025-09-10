@@ -1,0 +1,65 @@
+buildscript {
+    repositories {
+        jcenter()   // JCenter mirror
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+group = 'com.mmdev.meowmayo'
+version = '0.0.1'
+archivesBaseName = 'meowmayo'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+    mappings = "stable_20"
+    // Optional: disables creation of obfuscated sources jar
+    // makeObfSourceJar = false
+}
+
+repositories {
+    // Only needed if you add external dependencies
+    jcenter()
+}
+
+dependencies {
+    // deobfCompile is used for dependencies that need mapping
+    // Example:
+    // deobfCompile 'com.example:some-mod:1.0.0'
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+// Optional: clean up build directories to prevent stale classes
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+// Optional: Gradle wrapper version override (forces newer wrapper)
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
+}
