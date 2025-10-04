@@ -1,5 +1,6 @@
 package com.mmdev.meowmayo;
 
+import com.mmdev.meowmayo.utils.PartyUtils;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -10,6 +11,7 @@ import net.minecraftforge.client.ClientCommandHandler;
 import com.mmdev.meowmayo.config.ModConfig;
 import com.mmdev.meowmayo.gui.GuiHandler;
 import com.mmdev.meowmayo.commands.*;
+import com.mmdev.meowmayo.features.dungeons.*;
 import com.mmdev.meowmayo.features.general.*;
 import com.mmdev.meowmayo.features.kuudra.*;
 import com.mmdev.meowmayo.features.party.*;
@@ -48,6 +50,9 @@ public class MeowMayo {
 
         MinecraftForge.EVENT_BUS.register(new TextOverlayUtils());
         MinecraftForge.EVENT_BUS.register(new PartyUtils());
+
+        MinecraftForge.EVENT_BUS.register(new DungeonsExtras());
+        MinecraftForge.EVENT_BUS.register(new F7BossFeatures());
 
         MinecraftForge.EVENT_BUS.register(new BackpackTracker());
         MinecraftForge.EVENT_BUS.register(new InvulnerabilityItems());

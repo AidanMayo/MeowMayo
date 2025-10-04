@@ -91,6 +91,8 @@ public class ConfigSettings {
         add(new ToggleSetting("Kuudra Time Stats Command", "Enables Kuudra Time Stats Party Command", "Party Commands", "Kuudra", false));
         add(new ToggleSetting("Coinflip Command", "Enables Coinflip Party Command", "Party Commands", "Fun", false));
         add(new ToggleSetting("Dice Command", "Enables Dice Party Command", "Party Commands", "Fun", false));
+        add(new ToggleSetting("Announce Spirit Leap", "Announces when you spirit leap to someone", "Dungeons", "General", false));
+        add(new ToggleSetting("Phase 3 Death Warning", "Warns you when a death tick is about to happen in Terminal Phase", "Dungeons", "F7 Boss", false));
     }
 
     private static int readInt(String input) {
