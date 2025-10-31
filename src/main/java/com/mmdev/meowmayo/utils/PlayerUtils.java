@@ -24,4 +24,17 @@ public class PlayerUtils {
         TextOverlayUtils.showOverlayText(title, durationMs);
         Minecraft.getMinecraft().thePlayer.playSound(sound, 1.0F, 1.0F);
     }
+
+    public static void makeTextTitle(String title) {
+        TextOverlayUtils.showOverlayStatic(title);
+    }
+
+    public static void makeTextAlert(String title, String sound) {
+        TextOverlayUtils.showOverlayStatic(title);
+        Minecraft.getMinecraft().thePlayer.playSound(sound, 1.0F, 1.0F);
+    }
+
+    public static void stopAlert() {
+        TextOverlayUtils.stopDisplaying();
+    }
 }

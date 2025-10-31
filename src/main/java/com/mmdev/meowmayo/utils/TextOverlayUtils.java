@@ -10,16 +10,28 @@ import org.lwjgl.opengl.GL11;
 public class TextOverlayUtils {
     private static String currentText = null;
     private static long endTime = 0;
+    private static boolean displaying = false;
 
     public static void showOverlayText(String text, long duration) {
         currentText = text;
         endTime = System.currentTimeMillis() + duration;
     }
 
+    public static void stopDisplaying() {
+        endTime = System.currentTimeMillis();
+        displaying = false;
+        currentText = null;
+    }
+
+    public static void showOverlayStatic(String text) {
+        currentText = text;
+        displaying = true;
+    }
+
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Text event) {
         if (currentText == null) return;
-        if (System.currentTimeMillis() > endTime) {
+        if (System.currentTimeMillis() > endTime && !displaying) {
             currentText = null; // expire
             return;
         }

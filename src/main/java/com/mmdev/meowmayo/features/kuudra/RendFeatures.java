@@ -115,7 +115,7 @@ public class RendFeatures {
                 playerPull = true;
                 DelayUtils.scheduleTask(() -> playerPull = false, 100);
             }
-        } else if (event.button == 1 && event.buttonstate) {
+        } else if (event.button == 1 && event.buttonstate) { // exp tracker goes here when made
             if (rendBone.getValue() && !throwingBone) {
                 ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
                 if (heldItem == null) return;

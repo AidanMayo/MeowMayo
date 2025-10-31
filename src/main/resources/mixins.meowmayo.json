@@ -6,6 +6,7 @@
   "refmap" : "mixins.meowmayo.refmap.json",
   "mixins" : [
     "MixinS02",
+    "MixinS29",
     "MixinS32",
     "MixinS45"
   ]

@@ -94,6 +94,7 @@ public class KuudraPhases {
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (inKuudra) {
+            if (event.phase != TickEvent.Phase.END) return;
             clientMs += 50;
         }
     }
@@ -104,9 +105,6 @@ public class KuudraPhases {
 
             if (p6L) {
                 if (getKuudra() == null) {
-//                    ChatUtils.system("COULDNT FIND KUUDRA");
-//                    p7L = true;
-//                    p6L = false;
                     return;
                 }
 
@@ -160,7 +158,6 @@ public class KuudraPhases {
 
         if (msg.equals("[NPC] Elle: Okay adventurers, I will go and fish up Kuudra!")) { // run start
             endRun();
-//            ChatUtils.system("Started Run");
             inKuudra = true;
 
             if (!kuudraTrack.getValue()) return;
@@ -185,7 +182,6 @@ public class KuudraPhases {
         }
 
         if (msg.equals("[NPC] Elle: Not again!")) {
-//            ChatUtils.system("Crates Spawned!");
             currPhase = 1;
             lagSplit(0);
 
@@ -196,7 +192,6 @@ public class KuudraPhases {
         if (supplyInfo.getValue() && kuudraTrack.getValue()) {
             Matcher noSupMatch = noSup.matcher(msg);
             if (noSupMatch.matches()) {
-//                ChatUtils.system("Found Missing Sup");
                 String playerName = ChatUtils.stripRank(noSupMatch.group(1));
                 String noSupply = noSupMatch.group(2).toLowerCase();
 
@@ -210,7 +205,6 @@ public class KuudraPhases {
             if (currPhase == 1) {
                 Matcher recoveredMatch = recovered.matcher(msg);
                 if (recoveredMatch.matches()) {
-//                    ChatUtils.system("Player Grabbed Supply");
                     String playerName = ChatUtils.stripRank(recoveredMatch.group(1));
                     supplies.add(new String[]{playerName, getFormattedSplitTime()});
                     if (getUnformattedLagSplitTime() < (8.0 + preLeeway.getValue())) {
@@ -223,7 +217,6 @@ public class KuudraPhases {
 
         if (msg.equals("[NPC] Elle: OMG! Great work collecting my supplies!")) {
             if (currPhase != 1) return;
-//            ChatUtils.system("Supplies Finished");
             currPhase = 2;
             lagSplit(1);
 
@@ -245,8 +238,8 @@ public class KuudraPhases {
                     for (String pm : grabbed) {
                         preMessage += ("\n§b§l" + pm + " §r§a§lgrabbed §rtheir pre");
                     }
-                    for (String pm : temp   ) {
-                        preMessage += ("\n§b§l" + pm + " §r§c§missed §rtheir pre");
+                    for (String pm : temp) {
+                        preMessage += ("\n§b§l" + pm + " §r§c§lmissed §rtheir pre");
                     }
                     ChatUtils.system(preMessage);
                 }
@@ -265,7 +258,6 @@ public class KuudraPhases {
         if (kuudraTrack.getValue() && freshInfo.getValue()) {
             Matcher freshMatch = freshed.matcher(msg);
             if (freshMatch.matches()) {
-//                ChatUtils.system("PLAYER FRESHED");
                 String playerName = ChatUtils.stripRank(freshMatch.group(1));
                 freshCount++;
                 freshes.add(new String[]{playerName, getFormattedSplitTime()});
@@ -274,14 +266,13 @@ public class KuudraPhases {
 
         if (msg.equals("[NPC] Elle: Phew! The Ballista is finally ready! It should be strong enough to tank Kuudra's blows now!")) {
             if (currPhase != 2) return;
-//            ChatUtils.system("Build Done");
 
             currPhase = 3;
             lagSplit(2);
 
             if (!(kuudraTrack.getValue() && inKuudra)) return;
             if (freshInfo.getValue() && freshInfoMessage.getValue()) {
-                String freshMessage = ("§a§l" + freshCount + "§r§ffreshes detected");
+                String freshMessage = ("§a§l" + freshCount + " §r§ffreshes detected");
                 for (String[] fresh : freshes) {
                     freshMessage += ("\n§b§l" + fresh[0] + " §rFreshed at §a§l" + fresh[1]);
                 }
@@ -293,7 +284,6 @@ public class KuudraPhases {
 
         if (msg.endsWith("has been eaten by Kuudra!") && !msg.startsWith("Elle") && msg.length() <= 44) {
             if (currPhase != 3) return;
-//            ChatUtils.system("Player Cannoned");
 
             currPhase = 4;
             lagSplit(3);
@@ -304,7 +294,6 @@ public class KuudraPhases {
 
         if (msg.endsWith("destroyed one of Kuudra's pods!") && msg.length() <= 50) {
             if (!(currPhase == 3 || currPhase == 4)) return;
-//            ChatUtils.system("Kuudra Stunned");
 
             currPhase = 5;
 
@@ -323,7 +312,6 @@ public class KuudraPhases {
         }
 
         if (msg.trim().equals("DEFEAT")) {
-//            ChatUtils.system("Run FAILED");
             if (kuudraTrack.getValue() && inKuudra) {
                 stats.totalRuns++;
                 globalStats.totalRuns++;
@@ -335,7 +323,6 @@ public class KuudraPhases {
 
         if (msg.trim().equals("KUUDRA DOWN!")) {
             lagSplit(7);
-//            ChatUtils.system("Run Complete");
 
             if (kuudraTrack.getValue() && inKuudra) {
                 splits[8] = System.currentTimeMillis();
@@ -596,7 +583,7 @@ public class KuudraPhases {
             if (entity instanceof EntityMagmaCube) {
                 EntityMagmaCube cube = (EntityMagmaCube) entity;
 
-                if (cube.getSlimeSize() >= 30 && cube.getMaxHealth() == 100000f) return cube;
+                if (cube.getSlimeSize() == 30 && cube.getHealth() <= 100000f) return cube;
             }
         }
         return null;
