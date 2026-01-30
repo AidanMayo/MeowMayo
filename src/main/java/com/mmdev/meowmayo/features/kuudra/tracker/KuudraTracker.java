@@ -199,6 +199,9 @@ public class KuudraTracker {
         startTime = 0;
         rt.clear();
         lt.clear();
+
+        cachedSplits.clear();
+        activeSplitLine = null;
     }
 
     public void setCurrentTier(Tiers tier) {
